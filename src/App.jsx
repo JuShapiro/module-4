@@ -19,6 +19,7 @@ const ArticleList = ({ items }) => (
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   useEffect(() => {
     async function fetchArticles() {
       try {
@@ -28,7 +29,7 @@ const App = () => {
         );
         setArticles(response.data.hits);
       } catch (error) {
-        //
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -41,6 +42,9 @@ const App = () => {
       <h1>Latest articles</h1>
       {loading && <p>Loading data, please wait ...</p>}
       {articles.length > 0 && <ArticleList items={articles} />}
+      {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )}
     </div>
   );
 };
